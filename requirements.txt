@@ -1,0 +1,51 @@
+# ==============================================================================
+# File di Requisiti per l'Analizzatore di Opinioni Politiche su Reddit
+# Progetto GraphRAG - Aggiornato per Python 3.13 e dipendenze complete
+# ==============================================================================
+# Per installare, esegui: pip install -r requirements.txt
+# ------------------------------------------------------------------------------
+
+# --- Core Frameworks & Utilities ---
+streamlit~=1.38.0
+python-dotenv~=1.0.1
+pydantic~=2.7.0  # Fondamentale per i tuoi data schemas in `src/graph/schemas.py`
+
+# --- Data Handling & Ingestion ---
+praw~=7.7.1
+pandas~=2.2.0
+requests~=2.32.0
+
+# --- NLP & Machine Learning ---
+# Spacy è il core per il preprocessing del testo.
+# NOTA: Per Python 3.13, le dipendenze di spacy come 'blis' potrebbero richiedere
+# la compilazione locale. Assicurati di avere i C++ Build Tools installati.
+spacy~=3.7.5
+
+# Torch è il backend per Transformers e Sentence-Transformers.
+# Si raccomanda di installarlo seguendo le istruzioni ufficiali su pytorch.org
+# per ottenere la versione ottimizzata (es. CPU-only o con supporto CUDA).
+# Esempio per CPU-only:
+# pip3 install torch torchvision torchaudio
+torch~=2.4.0
+transformers~=4.42.0
+sentence-transformers~=3.0.1
+numpy~=1.26.4 # Aggiunto esplicitamente per le operazioni vettoriali
+tenacity~=8.2.3
+
+# --- LLM Orchestration & Interaction ---
+langchain~=0.2.1
+langchain-community~=0.2.0  # Aggiungi questa per ChatOllama e altri componenti
+ollama~=0.3.0
+
+# --- Graph Database & Manipulation ---
+neo4j~=5.21.0
+
+# --- Visualization ---
+plotly~=5.22.0
+streamlit-agraph~=0.0.8
+
+
+# --- Development & Testing Dependencies ---
+# Queste librerie sono usate per i test e lo sviluppo.
+pytest~=8.2.2
+pytest-mock~=3.14.0

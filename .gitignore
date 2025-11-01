@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+    
+# Virtual environment
+venv/
+.venv/
+ENV/
+    
+# Environment variables
+.env
+pytest.ini
+    
+# Databases
+*.sqlite3
+    
+# Data files
+data/
+    
+# IDE / Editor specific
+.vscode/
+.idea/
+    
+# Notebook checkpoints
+.ipynb_checkpoints/
+    
+# Pytest cache
+.pytest_cache/
+    
