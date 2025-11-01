@@ -21,8 +21,8 @@ L'obiettivo principale è superare i limiti delle tradizionali ricerche basate s
 ## Architettura di Sistema
 
 Il flusso operativo è suddiviso in due fasi principali: una pipeline offline per la costruzione e l'arricchimento del grafo e una pipeline online per l'interrogazione in tempo reale.
+<img width="2329" height="2651" alt="Untitled diagram-2025-11-01-114749" src="https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a" />
 
-![[Untitled diagram-2025-11-01-114749.png|853x971]]
 
 ## Stack Tecnologico
 
