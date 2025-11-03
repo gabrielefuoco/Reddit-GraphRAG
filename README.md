@@ -156,12 +156,11 @@ Questo comando avvierà un server locale e aprirà l'applicazione nel browser, c
 ├── run_pipeline.py     # Script orchestratore per l'intera pipeline
 ├── src/                # Codice sorgente del progetto
 │   ├── agent/          # Logica per l'agente ReAct
-│   ├── data_processing/  # Script per ingestione e pulizia dati
+│   ├── data_processing/# Script per ingestione e pulizia dati
 │   ├── graph/          # Moduli per la costruzione, analisi e schemi del grafo
 │   ├── llm/            # Core per l'interazione con i modelli linguistici
 │   ├── nlp/            # Funzioni per analisi NLP (NER, stance, embedding)
 │   ├── pipeline/       # Logica della catena RAG e template di query
 │   ├── scripts/        # Script ausiliari (merge, defragment, etc.)
 │   └── utils/          # Funzioni di utilità (es. gestione configurazione)
-└── tests/              # Test unitari e di integrazione (non implementati)
 ```
