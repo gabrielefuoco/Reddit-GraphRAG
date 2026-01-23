@@ -1,64 +1,74 @@
 
-# Analizzatore di Opinioni Politiche su Reddit (GraphRAG)
+# Reddit Political Opinion Analyzer (GraphRAG)
 
-## Panoramica del Progetto
+## Project Overview
 
-Questo progetto è un sistema end-to-end progettato per analizzare le discussioni politiche sulla piattaforma Reddit. Implementa una sofisticata pipeline **GraphRAG (Retrieval-Augmented Generation)** che trasforma il contenuto testuale non strutturato in un knowledge graph strutturato e interrogabile, ospitato su Neo4j.
+This project is an end-to-end system designed to analyze political discussions on the Reddit platform. It implements a sophisticated **GraphRAG (Retrieval-Augmented Generation)** pipeline that transforms unstructured textual content into a structured and queryable knowledge graph, hosted on Neo4j.
 
-L'obiettivo principale è superare i limiti delle tradizionali ricerche basate su keyword e dei sistemi RAG puramente vettoriali, offrendo un'analisi semantica più profonda e contestualizzata delle opinioni politiche. L'interfaccia utente, costruita con Streamlit, fornisce un punto di accesso intuitivo per esplorare i dati e interagire con un agente di ragionamento basato su LangChain.
+The main objective is to overcome the limitations of traditional keyword-based searches and purely vector-based RAG systems, offering a deeper and more contextualized semantic analysis of political opinions. The user interface, built with Streamlit, provides an intuitive entry point to explore data and interact with a reasoning agent based on LangChain.
 
-### Caratteristiche Chiave
+### Key Features
 
-* **Recupero Ibrido a Due Stadi**: Il sistema impiega una strategia di recupero gerarchico. Le query vengono prima risolte interrogando la struttura del grafo per identificare entità e relazioni pertinenti (es. chi ha menzionato una figura politica). I risultati vengono poi riordinati semanticamente attraverso la similarità vettoriale per massimizzare la rilevanza.
-* **Fallback Vettoriale Dinamico**: Nel caso in cui nessuna entità strutturata venga trovata, il sistema esegue in modo trasparente una ricerca vettoriale pura sull'intero dataset, garantendo che venga sempre fornita una risposta.
-* **Arricchimento NLP Avanzato**: I dati raccolti da Reddit vengono sottoposti a un'analisi NLP approfondita, che include:
-    * **Estrazione di Entità Nominate (NER)** per identificare figure, organizzazioni e concetti politici.
-    * **Rilevamento della Stance** per classificare le opinioni come favorevoli, contrarie o neutrali.
-    * **Generazione di Embedding Vettoriali** per catturare il significato semantico del testo.
-* **Community Detection e Alleanze Ideologiche**: Vengono applicati algoritmi di analisi di grafi (Leiden) per identificare cluster di utenti con allineamenti ideologici simili, basati sulla coerenza delle loro posizioni espresse.
-* **Riassunti Semantici**: Il sistema genera riassunti di alto livello per le ideologie identificate, aggregando e sintetizzando i post e i commenti più rappresentativi di una specifica posizione su un'entità.
-
-## Architettura di Sistema
-
-Il flusso operativo è suddiviso in due fasi principali: una pipeline offline per la costruzione e l'arricchimento del grafo e una pipeline online per l'interrogazione in tempo reale.
-<img width="2329" height="2651" alt="Untitled diagram-2025-11-01-114749" src="https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a" />
-
-
-## Stack Tecnologico
-
-- **Backend e Orchestrazione**: Python 3.10+
+- **Two-Stage Hybrid Retrieval**: The system employs a hierarchical retrieval strategy. Queries are first resolved by querying the graph structure to identify relevant entities and relationships (e.g., who mentioned a political figure). Results are then semantically re-ranked via vector similarity to maximize relevance.
     
-- **Interfaccia Web**: Streamlit
+- **Dynamic Vector Fallback**: In case no structured entity is found, the system transparently executes a pure vector search on the entire dataset, ensuring a response is always provided.
     
-- **Database a Grafo**: Neo4j 5.x
+- **Advanced NLP Enrichment**: Data collected from Reddit undergoes in-depth NLP analysis, including:
     
-- **Ingestione Dati**: PRAW / asyncpraw
+    - **Named Entity Recognition (NER)** to identify political figures, organizations, and concepts.
+        
+    - **Stance Detection** to classify opinions as favorable, opposing, or neutral.
+        
+    - **Vector Embedding Generation** to capture the semantic meaning of the text.
+        
+- **Community Detection and Ideological Alliances**: Graph analysis algorithms (Leiden) are applied to identify clusters of users with similar ideological alignments, based on the consistency of their expressed positions.
     
-- **Elaborazione NLP**: spaCy, Hugging Face Transformers
-    
-- **Embedding Vettoriali**: Sentence-Transformers
-    
-- **Orchestrazione LLM**: LangChain
+- **Semantic Summaries**: The system generates high-level summaries for identified ideologies, aggregating and synthesizing the most representative posts and comments regarding a specific stance on an entity.
     
 
+## System Architecture
 
-Questo comando avvierà un server locale e aprirà l'applicazione nel browser, consentendo di interrogare il knowledge graph.
+The operational flow is divided into two main phases: an offline pipeline for graph construction and enrichment, and an online pipeline for real-time querying.
 
-## Struttura del Progetto
+<img width="2329" height="2651" alt="Untitled diagram-2025-11-01-114749" src="[https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a](https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a)" />
+
+## Tech Stack
+
+- **Backend and Orchestration**: Python 3.10+
+    
+- **Web Interface**: Streamlit
+    
+- **Graph Database**: Neo4j 5.x
+    
+- **Data Ingestion**: PRAW / asyncpraw
+    
+- **NLP Processing**: spaCy, Hugging Face Transformers
+    
+- **Vector Embeddings**: Sentence-Transformers
+    
+- **LLM Orchestration**: LangChain
+    
+
+This command will start a local server and open the application in the browser, allowing you to query the knowledge graph.
+
+## Project Structure
 
 ```
 .
-├── app.py              # Entry point dell'applicazione Streamlit
-├── data/               # Dati grezzi e processati (esclusi da Git)
-├── requirements.txt    # Dipendenze Python
-├── run_pipeline.py     # Script orchestratore per l'intera pipeline
-├── src/                # Codice sorgente del progetto
-│   ├── agent/          # Logica per l'agente ReAct
-│   ├── data_processing/# Script per ingestione e pulizia dati
-│   ├── graph/          # Moduli per la costruzione, analisi e schemi del grafo
-│   ├── llm/            # Core per l'interazione con i modelli linguistici
-│   ├── nlp/            # Funzioni per analisi NLP (NER, stance, embedding)
-│   ├── pipeline/       # Logica della catena RAG e template di query
-│   ├── scripts/        # Script ausiliari (merge, defragment, etc.)
-│   └── utils/          # Funzioni di utilità (es. gestione configurazione)
+├── app.py              # Streamlit application entry point
+├── data/               # Raw and processed data (excluded from Git)
+├── requirements.txt    # Python dependencies
+├── run_pipeline.py     # Orchestrator script for the entire pipeline
+├── src/                # Project source code
+│   ├── agent/          # Logic for the ReAct agent
+│   ├── data_processing/# Scripts for data ingestion and cleaning
+│   ├── graph/          # Modules for graph construction, analysis, and schemas
+│   ├── llm/            # Core for interaction with language models
+│   ├── nlp/            # Functions for NLP analysis (NER, stance, embeddings)
+│   ├── pipeline/       # RAG chain logic and query templates
+│   ├── scripts/        # Auxiliary scripts (merge, defragment, etc.)
+│   └── utils/          # Utility functions (e.g., configuration management)
 ```
+
+---
+##### This project has been developed as a coursework assigned for the class "Information Retrieval and Natural Language Processing", Fall 2025 (Instructor: prof. [Andrea Tagarelli](https://mlnteam-unical.github.io/ "https://mlnteam-unical.github.io/")) at the DIMES Department, University of Calabria, Italy
