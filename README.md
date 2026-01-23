@@ -30,7 +30,65 @@ The main objective is to overcome the limitations of traditional keyword-based s
 
 The operational flow is divided into two main phases: an offline pipeline for graph construction and enrichment, and an online pipeline for real-time querying.
 
-<img width="2329" height="2651" alt="Untitled diagram-2025-11-01-114749" src="[https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a](https://github.com/user-attachments/assets/ba5a9263-2ae8-42b1-8c2c-2b96a0b1577a)" />
+```mermaid
+graph TD
+    %% Stili per emulare i colori dell'immagine
+    classDef process fill:#fff2cc,stroke:#d6b656,stroke-width:1px,color:#000;
+    classDef data fill:#fff2cc,stroke:#d6b656,stroke-width:1px,shape:diamond,color:#000;
+    classDef db fill:#fff2cc,stroke:#d6b656,stroke-width:1px,shape:cylinder,color:#000;
+    classDef cluster fill:#ffffff,stroke:#d6b656,stroke-width:1px,color:#000;
+
+    subgraph Phase2 [Phase 2: Querying - Online]
+        direction TB
+        UserQuery{User Query}:::data
+        Agent[ReAct Agent<br/>react_agent.py]:::process
+        RAG[GraphRAG Pipeline<br/>rag_chain.py]:::process
+        LLM{LLM for<br/>Response Generation}:::data
+        UI[Streamlit UI<br/>app.py]:::process
+
+        UI --> UserQuery
+        UserQuery --> Agent
+        Agent --> RAG
+        RAG --> LLM
+        LLM --> UI
+    end
+
+    subgraph Phase1 [Phase 1: Knowledge Graph Construction - Offline]
+        direction TB
+        RedditAPI[Reddit API]:::process
+        Ingestion[Data Ingestion<br/>ingestion.py]:::process
+        RawData{Raw Data}:::data
+        Cleaning[Cleaning & Preprocessing<br/>cleaner.py]:::process
+        CleanText{Clean Text}:::data
+        NLP[NLP Analysis<br/>analysis.py]:::process
+        EnrichedData[Enriched Data<br/>Entities, Stance, Embedding]:::process
+        Builder[Graph Construction<br/>builder.py]:::process
+        Neo4j[(Neo4j Graph)]:::db
+        Defrag[Entity Defragmentation<br/>defragment_entities.py<br/>merge_entities.py]:::process
+        GDS[GDS Analysis<br/>run_analysis.py]:::process
+
+        RedditAPI --> Ingestion
+        Ingestion --> RawData
+        RawData --> Cleaning
+        Cleaning --> CleanText
+        CleanText --> NLP
+        NLP --> EnrichedData
+        EnrichedData --> Builder
+        Builder --> Neo4j
+        Neo4j --> Defrag
+        Defrag --> GDS
+        GDS --> Neo4j
+    end
+
+    %% Connessione tra le fasi (RAG accede al DB)
+    RAG <--> Neo4j
+
+    %% Stile dei bordi dei sottografi
+    style Phase1 stroke:#d6b656,stroke-width:1px
+    style Phase2 stroke:#d6b656,stroke-width:1px
+
+```
+
 
 ## Tech Stack
 
